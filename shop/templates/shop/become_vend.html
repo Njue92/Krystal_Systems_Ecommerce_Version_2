@@ -1,0 +1,102 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+
+  .title {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .form {
+    margin-bottom: 20px;
+  }
+
+  .field {
+    margin-bottom: 15px;
+  }
+
+  .control {
+    margin-top: 10px;
+  }
+
+  .button {
+    width: 100%;
+    padding: 10px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+
+  .button:hover {
+    background-color: #0d8cf0;
+  }
+
+  p {
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  a {
+    color: #2196F3;
+  }
+
+  .tooltip {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+</style>
+
+<div class="container">
+  <h1 class="title">Sign Up</h1>
+  <form method="post" action="." class="form">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+    <div class="field">
+      <div class="control">
+        <button class="button is-dark is-uppercase">Sign up</button>
+      </div>
+      <div class="control">
+        <p>Already have an account? <a href="#">Sign in</a>.</p>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+  const passwordInput = document.getElementById('id_password');
+
+  passwordInput.addEventListener('mouseover', function () {
+    const tooltip = document.createElement('div');
+    tooltip.classList.add('tooltip');
+    tooltip.textContent =
+      'Your password can’t be too similar to your other personal information.\n' +
+      'Your password must contain at least 8 characters.\n' +
+      'Your password can’t be a commonly used password.\n' +
+      'Your password can’t be entirely numeric.';
+    this.parentNode.appendChild(tooltip);
+  });
+
+  passwordInput.addEventListener('mouseout', function () {
+    const tooltip = document.querySelector('.tooltip');
+    if (tooltip) {
+      tooltip.parentNode.removeChild(tooltip);
+    }
+  });
+</script>
+{% endblock %}

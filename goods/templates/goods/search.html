@@ -1,0 +1,46 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+ <h2>Search Results: "{{ query }}"</h2>
+            <!-- Product items here -->
+
+        <div class="product-grid">
+
+            {% if products %}
+
+            {% for product in products %}
+<!--            <div class="col-sm-4">-->
+<!--							<div class="product-image-wrapper">-->
+<!--								<div class="single-products">-->
+<!--										<div class="productinfo text-center">-->
+<!--								<img src="{{ product.get_thumbnail }}">-->
+<!--											<h2>Ksh. {{ product.price|intcomma  }}</h2>-->
+<!--											<p>{{ product.title }}</p>-->
+<!--											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>-->
+<!--										</div>-->
+<!--										<div class="product-overlay">-->
+<!--											<div class="overlay-content">-->
+<!--												<h2>Ksh. {{ product.price|intcomma  }}</h2>-->
+<!--												<p>{{ product.title }}</p>-->
+<!--												<a href="{% url 'product' product.category.slug product.slug %}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>View</a>-->
+<!--											</div>-->
+<!--										</div>-->
+<!--								</div>-->
+
+<!--							</div>-->
+<!--						</div>-->
+			         {% include 'goods/parts/list_item.html' %}
+
+            {% endfor %}
+            {% else %}
+
+            <h3>{{ query }} Not Available! </h3>
+
+            {% endif %}
+        </div>
+
+
+{% endblock %}

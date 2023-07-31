@@ -1,0 +1,108 @@
+{% load static %}
+{% load humanize %}
+{% block content %}
+<!-- <div class="product-grid">-->
+
+<!--            <div class="product-item">-->
+<!--				<img src="{{ product.get_thumbnail }}">-->
+<!--				<h3>{{ product.title }}</h3>-->
+<!--				<p>{{ product.description }}</p>-->
+<!--				<p class="price">{{ product.price }}</p>-->
+<!--				<div class="vendor-location">-->
+<!--					<i class="fas fa-map-marker-alt"></i>-->
+<!--					<span><a href="#">{{ product.location }}</a></span>-->
+<!--				</div>-->
+<!--				<button class="add-to-cart">Add to Cart</button>-->
+<!--                   <a href="{% url 'product' product.category.slug product.slug %}" class="btn btn-outline-primary">View</a>-->
+
+<!--            </div>-->
+
+<!-- </div>-->
+<div class="col-sm-4">
+							<div class="product-image-wrapper">
+								<div class="single-products">
+										<div class="productinfo text-center">
+								<img src="{{ product.get_thumbnail }}">
+											<h2>Ksh. {{ product.price|intcomma  }}</h2>
+											<p>{{ product.title }}</p>
+											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+										</div>
+										<div class="product-overlay">
+											<div class="overlay-content">
+												<h2>Ksh. {{ product.price|intcomma  }}</h2>
+												<p>{{ product.title }}</p>
+												<a href="{% url 'product' product.category.slug product.slug %}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>View</a>
+											</div>
+										</div>
+								</div>
+<!--								<div class="choose">-->
+<!--									<ul class="nav nav-pills nav-justified">-->
+<!--										<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>-->
+<!--										<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>-->
+<!--									</ul>-->
+<!--								</div>-->
+							</div>
+						</div>
+<!--<style>-->
+
+<!--.product-grid {-->
+<!--  display: grid;-->
+<!--  grid-template-columns: repeat(4, 1fr);-->
+<!--  grid-gap: 20px;-->
+<!--}-->
+
+<!--.product-item {-->
+<!--  background-color: #fff;-->
+<!--  border: 1px solid #ddd;-->
+<!--  padding: 10px;-->
+<!--  box-sizing: border-box;-->
+<!--  text-align: center;-->
+<!--}-->
+
+<!--.product-item img {-->
+<!--  max-width: 100%;-->
+<!--  height: auto;-->
+<!--}-->
+
+<!--.product-item h3 {-->
+<!--  font-size: 18px;-->
+<!--  margin-top: 10px;-->
+<!--  margin-bottom: 5px;-->
+<!--}-->
+
+<!--.product-item p {-->
+<!--  font-size: 14px;-->
+<!--  margin-top: 0;-->
+<!--  margin-bottom: 10px;-->
+<!--}-->
+
+<!--.price {-->
+<!--  font-size: 18px;-->
+<!--  font-weight: bold;-->
+<!--  margin-bottom: 10px;-->
+<!--}-->
+
+<!--.vendor-location {-->
+<!--  display: flex;-->
+<!--  align-items: center;-->
+<!--  justify-content: center;-->
+<!--  margin-bottom: 10px;-->
+<!--}-->
+
+<!--.vendor-location i {-->
+<!--  margin-right: 5px;-->
+<!--}-->
+
+<!--.add-to-cart {-->
+<!--  background-color: #4CAF50;-->
+<!--  color: #fff;-->
+<!--  border: none;-->
+<!--  padding: 10px 20px;-->
+<!--  font-size: 16px;-->
+<!--  cursor: pointer;-->
+<!--  border-radius: 4px;-->
+<!--}-->
+
+<!--</style>-->
+
+{% endblock %}

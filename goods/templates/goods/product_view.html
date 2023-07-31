@@ -1,0 +1,445 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
+
+<!--<a href="#" class="go-back-button">-->
+<!--  <i class="fas fa-arrow-left"></i>-->
+<!--  Go Back-->
+<!--</a>-->
+
+
+<div class="container-product">
+    <form method="post" action=".">
+    {% csrf_token %}
+  <div class="left-column products"> <!-- Added "products" class -->
+    <div class="product-details">
+<!--      <h1>Apple MacBook Pro Core i5 500GB HDD 8GB Ram</h1>-->
+              <h1>{{ product.title}}</h1>
+
+        {% if product.image %}
+      <div class="product-image">
+        <img src="{{ product.image.url }}" style="max-width: 70%;"> <!-- Adjusted image size -->
+      </div>
+        {% endif %}
+
+
+      <div class="product-info">
+        <h2>Product Information</h2>
+<!--        <p>Product description goes here.</p>-->
+          <p>{{ product.description}}</p>
+
+<!--          <p><strong>Price: Ksh. 29,000</strong></p>-->
+                    <p><strong>Ksh. {{ product.price|intcomma }}</strong></p>
+        <p>Availability: In store</p>
+<!--        <p>Year: 2016</p>-->
+
+      </div>
+    </div>
+
+      <div class="field has-addons">Quantity
+                <input type="number" name="quantity" value="1" class="input" min="1">
+            </div>
+
+    <div class="cart">
+  <button class="add-to-cart-btn">Add to Cart</button>
+</div>
+
+
+  </div>
+    </form>
+
+  <div class="right-column">
+  <div class="box big-box">
+   <div class="seller-details">
+      <h2>Seller Details</h2>
+      <p>Business Name: {{ product.vendor.name }}</p>
+      <p>Contact Number: {{ product.mobile_number }} </p>
+      <p>Location: {{ product.location }}</p>
+    </div>
+        </div>
+
+        <br>
+      <div class="contact-seller">
+  <button id="call-button" class="contact-button">
+    <i class="fas fa-phone-alt"></i> <!-- Updated icon class for phone -->
+    Contact Seller
+  </button><br><br>
+  <button id="chat-button" class="contact-button">
+    <i class="fas fa-comment-alt"></i> <!-- Updated icon class for message -->
+    Start Chat
+  </button>
+  <span id="seller-number" class="seller-info">{{ product.mobile_number }}</span>
+</div>
+
+
+        <br>
+  </div>
+</div>
+<!--<hr>-->
+    </div>
+ {% if messages %}
+    {% for message in messages %}
+<div class="notification is-success is-toast">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
+{% if similar_products %}
+<hr>
+<div class="column is-multiline">
+    <div class="column is-12">
+        <h2 class="subtitle">Similar Products</h2>
+    </div>
+
+    {% for product in similar_products %}
+
+         {% include 'goods/parts/list_item.html' %}
+
+    {% endfor %}
+
+</div>
+
+
+{% endif %}
+
+<style>
+.container-product {
+  display: flex;
+}
+
+.left-column {
+  flex: 10;
+  background-color: #f9f9f9;
+  padding: 15px;
+}
+
+.right-column {
+  flex: 85;
+  background-color: white;
+  padding: 100px;
+}
+
+.product-image img {
+  max-width: 50%;
+  height: auto;
+}
+
+.product-info {
+  padding: 50px;
+}
+
+.cart {
+  width: 80%;
+  max-width: 400px;
+  height: 100px;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.add-to-cart-btn {
+  padding: 10px 20px;
+  background-color: #337ab7;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.seller-details {
+  margin-bottom: 20px;
+}
+
+.contact-seller {
+  position: relative;
+}
+
+.contact-button {
+  background-color: #3498db;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.contact-button i {
+  margin-right: 5px;
+}
+
+.seller-info {
+  display: none;
+  position: absolute;
+  top: 30px;
+  left: 0;
+  background-color: #f1f1f1;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+
+
+
+
+
+<!--.container-product {-->
+<!--  display: flex;-->
+<!--}-->
+
+<!--.left-column {-->
+<!--  flex: 1; /* Adjusted width to make it smaller */-->
+<!--  background-color: #f9f9f9;-->
+<!--  padding: 10px; /* Adjusted padding for a more compact look */-->
+<!--}-->
+
+<!--.right-column {-->
+<!--  flex: 2; /* Adjusted width to make it larger */-->
+<!--  background-color: white;-->
+<!--  padding: 20px;-->
+<!--}-->
+
+<!--.product-image img {-->
+<!--  max-width: 70%; /* Adjusted image size */-->
+<!--}-->
+
+<!--.product-info {-->
+<!--  padding: 20px;-->
+<!--}-->
+
+.image-gallery {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 20px;
+  overflow-x: auto;
+}
+
+.image-gallery img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.image-gallery img:last-child {
+  margin-right: 0;
+}
+
+.box {
+  width: 300px;
+  padding: 20px;
+  margin: 1px;
+  border: 1px solid #ccc;
+}
+
+.big-box {
+  height: 200px;
+}
+
+.small-box {
+  height: 70px;
+}
+
+<!--.cart {-->
+<!--  width: 100%;-->
+<!--  max-width: 400px;-->
+<!--  height: 100px;-->
+<!--  background-color: #f9f9f9;-->
+<!--  display: flex;-->
+<!--  justify-content: left;-->
+<!--  align-items: center;-->
+<!--}-->
+
+<!--.add-to-cart-btn {-->
+<!--  padding: 10px 20px;-->
+<!--  background-color: #337ab7;-->
+<!--  color: #fff;-->
+<!--  border: none;-->
+<!--  border-radius: 4px;-->
+<!--  cursor: pointer;-->
+<!--}-->
+
+<!--.contact-seller {-->
+<!--  position: relative;-->
+<!--}-->
+
+<!--.contact-button {-->
+<!--  background-color: #3498db;-->
+<!--  color: #fff;-->
+<!--  padding: 10px 20px;-->
+<!--  border: none;-->
+<!--  border-radius: 4px;-->
+<!--  margin-right: 10px;-->
+<!--  cursor: pointer;-->
+<!--}-->
+
+<!--.contact-button i {-->
+<!--  margin-right: 5px;-->
+<!--}-->
+
+<!--.seller-info {-->
+<!--  display: none;-->
+<!--  position: absolute;-->
+<!--  top: 30px;-->
+<!--  left: 0;-->
+<!--  background-color: #f1f1f1;-->
+<!--  padding: 5px;-->
+<!--  border-radius: 4px;-->
+<!--}-->
+
+.go-back-button {
+  display: inline-block;
+  padding: 10px;
+  border-radius: 4px;
+  background-color: #3498db;
+  color: #fff;
+  text-decoration: none;
+}
+
+.go-back-button i {
+  margin-left: 5px;
+  width: 50px;
+}
+
+@keyframes show-toast{
+    0% {bottom: -100%;}
+    20% {bottom: 50px;}
+    80% {bottom: 50px;}
+    100% {bottom: -100%;}
+
+}
+
+.notification.is-toast{
+    position : fixed;
+    bottom : 100px;
+    right : 100px;
+    animation-name : show-toast;
+    animation-duration : 4s;
+
+}
+
+<!--make offer-->
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popup-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+form input[type="text"],
+form input[type="number"] {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+form input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+form input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+</style>
+
+<script>
+
+    document.getElementById("makeOfferButton").addEventListener("click", function() {
+    document.getElementById("offerPopup").style.display = "block";
+});
+
+document.getElementsByClassName("close")[0].addEventListener("click", function() {
+    document.getElementById("offerPopup").style.display = "none";
+});
+
+document.getElementById("offerForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent the form from submitting
+    var name = document.getElementById("name").value;
+    var phone = document.getElementById("phone").value;
+    var amount = document.getElementById("amount").value;
+
+    // Process the form data as desired, for example, send it to a server
+
+    // Close the pop-up after form submission
+    document.getElementById("offerPopup").style.display = "none";
+});
+</script>
+<!--<script>-->
+<!--const galleryImages = document.querySelectorAll('.image-gallery img');-->
+<!--const productImage = document.querySelector('.product-image img');-->
+
+<!--galleryImages.forEach((image) => {-->
+<!--  image.addEventListener('click', () => {-->
+<!--    const src = image.getAttribute('src');-->
+<!--    productImage.setAttribute('src', src);-->
+<!--  });-->
+<!--});-->
+
+<!--const callButton = document.getElementById("call-button");-->
+<!--  const chatButton = document.getElementById("chat-button");-->
+<!--  const sellerNumber = document.getElementById("seller-number");-->
+
+<!--  callButton.addEventListener("mouseover", function() {-->
+<!--    sellerNumber.style.display = "inline-block";-->
+<!--  });-->
+
+<!--  callButton.addEventListener("mouseout", function() {-->
+<!--    sellerNumber.style.display = "none";-->
+<!--  });-->
+
+<!--  chatButton.addEventListener("click", function() {-->
+<!--    // Handle starting chat functionality-->
+<!--  });-->
+
+
+
+<!--</script>-->
+{% endblock %}

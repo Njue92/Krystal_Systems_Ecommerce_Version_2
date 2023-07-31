@@ -1,0 +1,53 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .form-container {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f5f5f5;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
+
+</style>
+
+<div class="form-container">
+    <h2>Post Ad</h2>
+    <form method="post" action="." enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+<!--        <div class="form-group">-->
+<!--            <label for="id_images">Select Images:</label>-->
+<!--            <input type="file" id="id_images" name="images" multiple>-->
+<!--        </div>-->
+        <div class="btn-container">
+            <button type="submit" class="btn">Submit</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+{% if error_message %}
+    <p>{{ error_message }}</p>
+    {% endif %}
+	<section id="form"><!--form-->
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4 col-sm-offset-1">
+					<div class="login-form"><!--login form-->
+						<h2>Login to your account</h2>
+<!--  						<form method="post" action="{% url 'home_page' %}">-->
+<!--    		{% csrf_token %}-->
+<!--    <input type="email" placeholder="Email" name="email" /> &lt;!&ndash; Add the name attribute &ndash;&gt;-->
+<!--    <input type="password" placeholder="Password" name="password" /> &lt;!&ndash; Add the name attribute for the password field as well &ndash;&gt;-->
+<!--    <span>-->
+<!--        <input type="checkbox" class="checkbox">-->
+<!--        Keep me signed in-->
+<!--    </span>-->
+<!--    <button type="submit" class="btn btn-default">Login</button>-->
+<!--</form>-->
+<form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required><br>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required><br>
+        <input type="submit" value="Login">
+    </form>
+
+					</div><!--/login form-->
+				</div>
+				<div class="col-sm-1">
+					<h2 class="or">OR</h2>
+				</div>
+<!--				<div class="col-sm-4">-->
+<!--					<div class="signup-form">&lt;!&ndash;sign up form&ndash;&gt;-->
+<!--						<h2>New User Signup!</h2>-->
+<!--						<form action="#">-->
+<!--							<input type="text" placeholder="Name"/>-->
+<!--							<input type="email" placeholder="Email Address"/>-->
+<!--							<input type="password" placeholder="Password"/>-->
+<!--							<button type="submit" class="btn btn-default">Signup</button>-->
+<!--						</form>-->
+<!--					</div>&lt;!&ndash;/sign up form&ndash;&gt;-->
+<!--				</div>-->
+			</div>
+		</div>
+	</section><!--/form-->
+
+	
+	
+
+{% endblock %}
