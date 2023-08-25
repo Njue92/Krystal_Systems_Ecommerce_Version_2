@@ -84,8 +84,8 @@ class Product(models.Model):
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='uploads/', blank=True, null=True)
-    thumbnail = models.ImageField(upload_to='uploads/', blank=True, null=True)
+    image = models.ImageField(upload_to='img/', blank=True, null=True)
+    thumbnail = models.ImageField(upload_to='img/', blank=True, null=True)
 
     def get_thumbnail(self):
         if self.thumbnail:

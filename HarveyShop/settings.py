@@ -35,6 +35,7 @@ LOGIN_REDIRECT_URL = 'home_page'
 # Application definition
 
 INSTALLED_APPS = [
+    'wallet.apps.WalletConfig',
     'goods.apps.GoodsConfig',
     'order.apps.OrderConfig',
     'shop.apps.ShopConfig',

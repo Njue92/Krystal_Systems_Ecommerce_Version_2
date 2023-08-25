@@ -1,8 +1,9 @@
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from .forms import CreateUserForm, LoginForm, ProductForm
+from .forms import CreateUserForm, LoginForm, ProductForm, ProductImageForm
 from .models import Vendor
 from goods.models import Product
 from django.utils.text import slugify
@@ -152,6 +153,48 @@ def add_post(request):
 
 
 @login_required
+def edit_product(request, pk):
+    vendor = request.user.vendor
+    product = vendor.products.get(pk=pk)
+
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES, instance=product)
+        image_form = ProductImageForm(request.POST, request.FILES)
+
+        if image_form.is_valid():
+            product_image = image_form.save(commit=False)
+            product_image.product = product
+            product_image.save()
+
+            return redirect('vendor_adm')
+
+        if form.is_valid():
+            form.save()
+            return redirect('vendor_adm')
+    else:
+        form = ProductForm(instance=product)
+        image_form = ProductImageForm()
+
+    return render(request, 'shop/edit_product.html', {'form': form, 'product': product, 'image_form': image_form})
+
+
+@login_required
+def delete_product(request, pk):
+    try:
+        product = Product.objects.get(pk=pk)
+        vendor = request.user.vendor
+        if product.vendor == vendor:
+            product.delete()
+            return JsonResponse({'message': 'Product deleted successfully.'})
+        else:
+            return JsonResponse({'error': 'You do not have permission to delete this product.'}, status=403)
+    except Product.DoesNotExist:
+        return JsonResponse({'error': 'Product not found.'}, status=404)
+
+
+
+
+@login_required
 def order_tickets(request):
     vendor = request.user.vendor
     products = vendor.products.all()
@@ -179,3 +222,23 @@ def shop(request):
     all_products = Product.objects.all()[0:8]
 
     return render(request, 'shop/shop.html', {'all_products':all_products})
+
+
+@login_required
+def edit_vendor(request):
+    vendor = request.user.vendor
+
+    if request.method == 'POST':
+        name = request.POST.get('name', '')
+        email = request.POST.get('email', '')
+
+        if name:
+            vendor.created_by.email = email
+            vendor.created_by.save()
+
+            vendor.name = name
+            vendor.save()
+
+            return redirect('vendor_adm')
+
+    return render(request, 'shop/edit_vendor.html', {'vendor': vendor})

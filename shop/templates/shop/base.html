@@ -29,6 +29,8 @@
 	<link href="css/main.css" rel="stylesheet">
 	<link href="{% static 'css/main.css' %}" rel="stylesheet">
 
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
 	<link href="css/responsive.css" rel="stylesheet">
 		<link href="{% static 'css/main.css' %}" rel="stylesheet">
 
@@ -112,6 +114,8 @@
 							<ul class="nav navbar-nav">
 								{% if request.user.is_authenticated %}
 								<li><a href="{% url 'vendor_adm' %}"><i class="fa fa-user"></i> Account | Sell</a></li>
+								<li><a href="{% url 'wallet' %}"><i class='fas fa-wallet'></i>My Wallet</a></li>
+
 								{% else %}
 								<li><a href="{% url 'become_vend' %}"><i class="fa fa-star"></i> Sell</a></li>
 																{% endif %}

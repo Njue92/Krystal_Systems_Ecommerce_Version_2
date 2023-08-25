@@ -2,6 +2,12 @@
 {% load static %}
 {% load humanize %}
 {% block content %}
+<head>
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
 <section id="slider"><!--slider-->
 		<div class="container">
 			<div class="row">
@@ -85,13 +91,13 @@
 								<img src="{{ product.get_thumbnail }}">
 											<h2>Ksh. {{ product.price|intcomma  }}</h2>
 											<p>{{ product.title }}</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											<a href="#" class="btn btn-default add-to-cart"><i class="fas fa-map-marker-alt"></i>{{ product.location }}</a>
 										</div>
 										<div class="product-overlay">
 											<div class="overlay-content">
 												<h2>Ksh. {{ product.price|intcomma  }}</h2>
 												<p>{{ product.title }}</p>
-												<a href="{% url 'product' product.category.slug product.slug %}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>View</a>
+												<a href="{% url 'product' product.category.slug product.slug %}" class="btn btn-default add-to-cart"><i class="far fa-eye"></i>View</a>
 											</div>
 										</div>
 								</div>

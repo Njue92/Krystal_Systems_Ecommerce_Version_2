@@ -6,7 +6,7 @@
 {% block content %}
 
 <div class="box">
-  <h1 class="title">Vendor Admin - {{ vendor.name }} <a href="#" class="custom-button">Edit &#8594;</a></h1>
+  <h1 class="title">Vendor Admin - {{ vendor.name }} <a href="{% url 'edit_vendor' %}" class="custom-button">Edit &#8594;</a></h1>
     <strong>Balance: </strong> Ksh. {{ vendor.get_balance|intcomma }}<br>
     <strong>Paid: </strong> Ksh. {{ vendor.get_paid_amount|intcomma }}
 <hr>
@@ -41,17 +41,17 @@
         <td>Ksh. {{ item.price|intcomma }}</td>
         <td>In store</td>
         <td>
-          <button class="btn btn-delete btn-danger">
+    <button class="btn btn-delete btn-danger" data-product-id="{{ item.id }}">
             <span class="mdi mdi-delete mdi-24px"></span>
             <span class="mdi mdi-delete-empty mdi-24px"></span>
             <span>Delete</span>
           </button>
         </td>
         <td>
-          <button class="btn btn-edit btn-success">
+          <button class="btn btn-edit btn-success" data-product-id="{{ item.id }}">
             <span class="mdi mdi-edit mdi-24px"></span>
             <span class="mdi mdi-edit-outline mdi-24px"></span>
-            <span><a href="#">Edit</a></span>
+            <span>Edit</span>
           </button>
         </td>
       </tr>
@@ -151,21 +151,52 @@
   background-color: #222;
 }
 
-.btn-delete,
-.btn-edit {
+<!--.btn-delete,-->
+<!--.btn-edit {-->
+<!--  display: inline-block;-->
+<!--  padding: 5px;-->
+<!--  background-color: #eee;-->
+<!--  border: none;-->
+<!--  border-radius: 5px;-->
+<!--  cursor: pointer;-->
+<!--  transition: background-color 0.3s;-->
+<!--}-->
+
+<!--.btn-delete:hover,-->
+<!--.btn-edit:hover {-->
+<!--  background-color: #ddd;-->
+<!--}-->
+
+/* Delete button */
+.btn-delete {
   display: inline-block;
   padding: 5px;
-  background-color: #eee;
+  background-color: #ff6b6b; /* Red background color */
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
-.btn-delete:hover,
-.btn-edit:hover {
-  background-color: #ddd;
+.btn-delete:hover {
+  background-color: #ff4444; /* Darker red on hover */
 }
+
+/* Edit button */
+.btn-edit {
+  display: inline-block;
+  padding: 5px;
+  background-color: #6bc76b; /* Green background color */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-edit:hover {
+  background-color: #5ca45c; /* Darker green on hover */
+}
+
 
 .image-container {
   width: 100px;
@@ -278,5 +309,61 @@
 }
 
  </style>
+
+
+<!-- Add this script in your HTML template, preferably at the bottom before </body> -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+  // Function to handle the Edit button click
+  function handleEditButtonClick(productId) {
+    // Construct the URL for the product editing page
+    const editUrl = `{% url 'edit_product' 0 %}`.replace('0', productId);
+
+    // Redirect to the product editing page
+    window.location.href = editUrl;
+  }
+
+  // Add event listeners to all Edit buttons
+  const editButtons = document.querySelectorAll('.btn-edit');
+  editButtons.forEach(button => {
+    const productId = button.getAttribute('data-product-id');
+    button.addEventListener('click', () => handleEditButtonClick(productId));
+  });
+
+
+
+  $(document).ready(function() {
+    // Function to handle the Delete button click
+    function handleDeleteButtonClick(productId) {
+      const confirmDelete = confirm('Are you sure you want to delete this product?');
+      if (confirmDelete) {
+        // Send an AJAX request to delete the product
+        $.ajax({
+          type: 'POST',
+          url: `{% url 'delete_product' 0 %}`.replace('0', productId),
+          data: {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+          },
+          success: function(response) {
+            // Reload the page to reflect the updated product list
+            location.reload();
+          },
+          error: function(xhr, errmsg, err) {
+            console.error(errmsg);
+          }
+        });
+      }
+    }
+
+    // Add event listeners to all Delete buttons
+    const deleteButtons = document.querySelectorAll('.btn-delete');
+    deleteButtons.forEach(button => {
+      const productId = button.getAttribute('data-product-id');
+      button.addEventListener('click', () => handleDeleteButtonClick(productId));
+    });
+  });
+</script>
+
 {% endblock %}
 

@@ -1,0 +1,167 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+/* ... (existing styles) ... */
+
+/* Main Modal (background) */
+.main-modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Main Modal Content */
+.main-modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* New Modal (background) */
+.new-modal {
+  display: none;
+  position: fixed;
+  z-index: 2;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* New Modal Content */
+.new-modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.box {
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    padding: 20px;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+
+</style>
+</head>
+<body>
+
+<!-- Recharge Account Button -->
+
+
+<div class="box">
+  <h1 class="title">Wallet - {{ vendor.name }}</h1>
+    <strong>Balance: </strong> Ksh. 0<br>
+<hr>
+
+  <br>
+ <button> <a id="rechargeBtn" ><strong>Recharge Account</strong></a></button>
+</div>
+
+<!-- Main Modal -->
+<div id="mainModal" class="main-modal">
+  <div class="main-modal-content">
+    <span class="close-main-modal">&times;</span>
+    <p>Payment Options</p>
+      <li>
+        <ul>    <button id="mpesaBtn"><strong>Mpesa</strong></button>
+</ul>
+        <ul>    <button id="payViaBankBtn"><strong>Pay via Bank</strong></button>
+</ul>
+      </li>
+  </div>
+</div>
+
+<!-- New Modal for Mpesa -->
+<div id="mpesaModal" class="new-modal">
+  <div class="new-modal-content">
+    <span class="close-new-modal">&times;</span>
+    <p>Payment via Mpesa options...</p>
+
+    <img  src="{% static 'images/home/mpesa.jpg' %}" height="100 px">
+
+  </div>
+</div>
+
+<!-- New Modal for Pay via Bank -->
+<div id="bankModal" class="new-modal">
+  <div class="new-modal-content">
+    <span class="close-new-modal">&times;</span>
+    <p>Payment via Bank options...</p>
+  </div>
+</div>
+
+<script>
+// Get the modals
+var mainModal = document.getElementById("mainModal");
+var mpesaModal = document.getElementById("mpesaModal");
+var bankModal = document.getElementById("bankModal");
+
+// Get the buttons
+var mpesaBtn = document.getElementById("mpesaBtn");
+var payViaBankBtn = document.getElementById("payViaBankBtn");
+var rechargeBtn = document.getElementById("rechargeBtn");
+
+// Get the <span> elements that close the modals
+var closeMainModal = document.getElementsByClassName("close-main-modal");
+var closeNewModal = document.getElementsByClassName("close-new-modal");
+
+// When the user clicks on <span> (x), close the modals
+for (var i = 0; i < closeMainModal.length; i++) {
+  closeMainModal[i].onclick = function() {
+    mainModal.style.display = "none";
+  }
+}
+
+for (var i = 0; i < closeNewModal.length; i++) {
+  closeNewModal[i].onclick = function() {
+    mainModal.style.display = "none";
+    mpesaModal.style.display = "none";
+    bankModal.style.display = "none";
+  }
+}
+
+// Handle button clicks to open the modals
+mpesaBtn.onclick = function() {
+  mpesaModal.style.display = "block";
+}
+
+payViaBankBtn.onclick = function() {
+  bankModal.style.display = "block";
+}
+
+rechargeBtn.onclick = function() {
+  mainModal.style.display = "block";
+}
+
+// Open the main modal initially
+mainModal.style.display = "none";
+
+
+
+</script>
+
+
+{% endblock %}

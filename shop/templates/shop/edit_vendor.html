@@ -1,0 +1,41 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}Edit vendor | {% endblock %}
+
+{% block content %}
+    <div class="edit-vendor-container">
+        <h1 class="title">Edit vendor</h1>
+
+        <form method="post" action=".">
+            {% csrf_token %}
+
+            <div class="form-field">
+                <label for="id_name">Vendor name:</label>
+                <input type="text" name="name" id="id_name" value="{{ vendor.name }}" class="input">
+<p class="help"><strong style="color: red;">This is not the same as the username!</strong></p>
+            </div><br>
+
+            <div class="form-field">
+                <label for="id_email">E-mail:</label>
+                <input type="email" name="email" id="id_email" value="{{ vendor.created_by.email }}" class="input">
+            </div><br>
+
+            <div class="form-field">
+                <button class="button is-dark is-uppercase">Save changes</button>
+            </div>
+        </form>
+    </div>
+{% include 'shop/footer.html' %}
+<style>
+
+    .edit-vendor-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Rest of the CSS code remains the same */
+
+</style>
+{% endblock %}
